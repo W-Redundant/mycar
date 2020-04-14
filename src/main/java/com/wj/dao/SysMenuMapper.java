@@ -1,5 +1,6 @@
 package com.wj.dao;
 
+import com.wj.dto.QueryDto;
 import com.wj.pojo.SysMenu;
 import com.wj.pojo.SysMenuExample;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface SysMenuMapper {
     int updateByPrimaryKeySelective(SysMenu record);
 
     int updateByPrimaryKey(SysMenu record);
+
+    List<SysMenu> findMenuByPage(QueryDto queryDto);
 }

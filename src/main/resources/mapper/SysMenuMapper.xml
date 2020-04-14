@@ -5,6 +5,7 @@
     <id column="menu_id" jdbcType="BIGINT" property="menuId" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parentName" jdbcType="VARCHAR" property="parentName" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="perms" jdbcType="VARCHAR" property="perms" />
     <result column="type" jdbcType="INTEGER" property="type" />
@@ -255,4 +256,16 @@
       order_num = #{orderNum,jdbcType=INTEGER}
     where menu_id = #{menuId,jdbcType=BIGINT}
   </update>
+  <select id="findMenuByPage" resultMap="BaseResultMap" parameterType="com.wj.dto.QueryDto">
+    select m.*,p.menu_id,p.`name` parentName from sys_menu m left join sys_menu p
+on m.parent_id = p.menu_id
+    <where>
+      <if test="search!=null and search!='' ">
+        and m.name like concat('%',#{search},'%')
+      </if>
+      <if test="sort!=null and sort!='' ">
+        order by m.${sort} ${order}
+      </if>
+    </where>
+  </select>
 </mapper>
